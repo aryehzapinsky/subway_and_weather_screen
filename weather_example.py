@@ -1,6 +1,6 @@
 import urllib.request
 import json
-from datetime import time
+from datetime import datetime
 
 
 def get_weather():
@@ -13,7 +13,8 @@ def get_weather():
     response = urllib.request.urlopen(request)
     weather = json.load(response)
     current_temp = round(weather["current"]["temp"])
-    temps_over_hours = [(round(t["temp"]), t["dt"]) for t in weather["hourly"]]
-    return temps_over_hours
+    temps_over_hours = [(round(t["temp"]), datetime.fromtimestamp(t["dt"])) for t in weather["hourly"]]
+    return {"current_temperature": current_temp,
+            "hourly_temperatures": temps_over_hours}
 
 print(get_weather())
