@@ -16,15 +16,17 @@ class RunText(SampleBase):
         pos = offscreen_canvas.width
         text = "HAPPY THANKSGIVING!"
 
-        while True:
-            offscreen_canvas.Clear()
-            len = graphics.DrawText(offscreen_canvas, font, pos, 10, textColor, text)
-            pos -= 1
-            if (pos + len < 0):
-                pos = offscreen_canvas.width
+        offscreen_canvas.Clear()
+        len = graphics.DrawText(offscreen_canvas, font, 0, 30, textColor, text)
 
-            time.sleep(0.05)
-            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+        while True:
+            # pos -= 1
+            # if (pos + len < 0):
+            #     pos = offscreen_canvas.width
+
+            # time.sleep(0.05)
+            # offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+            pass
 
 if __name__ == "__main__":
     run_text = RunText()
