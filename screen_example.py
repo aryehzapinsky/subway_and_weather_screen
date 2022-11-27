@@ -11,13 +11,14 @@ class RunText(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("/home/aryeh/rpi-rgb-led-matrix/fonts/10x20.bdf")
+        font.LoadFont("/home/aryeh/rpi-rgb-led-matrix/fonts/5x7.bdf")
         textColor = graphics.Color(191,105,48)
         pos = offscreen_canvas.width
         text = "Train times:"
 
         offscreen_canvas.Clear()
-        len = graphics.DrawText(offscreen_canvas, font, 0, 20, textColor, text)
+        len = graphics.DrawText(offscreen_canvas, font, 0, 10, textColor, text)
+        len = graphics.DrawText(offscreen_canvas, font, 0, 30, textColor, "Hi Dassi")
         offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
         while True:
