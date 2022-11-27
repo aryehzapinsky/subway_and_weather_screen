@@ -3,6 +3,8 @@
 from samplebase import SampleBase
 from rgbmatrix import graphics
 import time
+from subway_example import filter_trains_next_two, get_upcoming_trains
+from datetime import datetime
 
 class RunText(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -11,24 +13,23 @@ class RunText(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("/home/aryeh/rpi-rgb-led-matrix/fonts/5x7.bdf")
-        textColor = graphics.Color(191,105,48)
-        pos = offscreen_canvas.width
-        text = "Train times:"
-
-        offscreen_canvas.Clear()
-        len = graphics.DrawText(offscreen_canvas, font, 0, 10, textColor, text)
-        len = graphics.DrawText(offscreen_canvas, font, 0, 30, textColor, "Hi Dassi")
-        offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+        font.LoadFont("/home/aryeh/rpi-rgb-led-matrix/fonts/7x13.bdf")
+        textColor = graphics.Color(52,85,235)
 
         while True:
-            # pos -= 1
-            # if (pos + len < 0):
-            #     pos = offscreen_canvas.width
+            train_times = filter_trains_next_two(get_upcoming_trains())
+            
+            offscreen_canvas.Clear()
+            graphics.DrawText(offscreen_canvas, font, 0, 5, textColor, "Train times:")
+            graphics.DrawText(offscreen_canvas, font, 0, 20, textColor, "1. {} minutes".format(train_times[0]))
+            graphics.DrawText(offscreen_canvas, font, 0, 35, textColor, "2. {} minutes".format(train_times[1]))
+            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
-            # time.sleep(0.05)
-            # offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            pass
+            current_hour = datetime.now().hour
+            if (current_hour > 6 and current_hour < 21):
+                time.sleep(90)
+            else:
+                time.sleep(60*30)
 
 if __name__ == "__main__":
     run_text = RunText()
