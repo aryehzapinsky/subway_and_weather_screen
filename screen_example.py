@@ -14,10 +14,11 @@ class RunText(SampleBase):
         font.LoadFont("/home/aryeh/rpi-rgb-led-matrix/fonts/10x20.bdf")
         textColor = graphics.Color(191,105,48)
         pos = offscreen_canvas.width
-        text = "HAPPY THANKSGIVING!"
+        text = "Train times:"
 
         offscreen_canvas.Clear()
-        len = graphics.DrawText(offscreen_canvas, font, 0, 30, textColor, text)
+        len = graphics.DrawText(offscreen_canvas, font, 0, 20, textColor, text)
+        offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
         while True:
             # pos -= 1
