@@ -11,7 +11,7 @@ class RunText(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/9x15.bdf")
+        font.LoadFont("/home/aryeh/rpi-rgb-led-matrix/fonts/10x20.bdf")
         textColor = graphics.Color(191,105,48)
         pos = offscreen_canvas.width
         text = "HAPPY THANKSGIVING!"
@@ -28,3 +28,5 @@ class RunText(SampleBase):
 
 if __name__ == "__main__":
     run_text = RunText()
+    if (not run_text.process()):
+        run_text.print_help()
