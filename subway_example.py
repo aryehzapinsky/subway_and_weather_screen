@@ -37,7 +37,7 @@ def get_upcoming_trains():
                   # departing = datetime.fromtimestamp(stop_time_update.departure.time)
                   # print("Arriving: {}, Departing: {}".format(arriving, departing))
                   upcoming_trains.append(minutes_until_next_train(arriving, now))
-                  print("Next train arriving in {} minutes.".format(upcoming_trains[-1]))
+                  #print("Next train arriving in {} minutes.".format(upcoming_trains[-1]))
   
   return upcoming_trains
 
