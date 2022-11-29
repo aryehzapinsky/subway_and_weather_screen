@@ -28,15 +28,15 @@ class RunText(SampleBase):
             
             offscreen_canvas.Clear()
             graphics.DrawText(offscreen_canvas, font_small, 0, 10, textColor, "TRAINS:")
-            graphics.DrawText(offscreen_canvas, font_large, 0, 10, textColor, "{} MIN".format(train_times[0]))
-            graphics.DrawText(offscreen_canvas, font_large, 0, 20, textColor, "{} MIN".format(train_times[1]))
+            graphics.DrawText(offscreen_canvas, font_large, 0, 20, textColor, "{} MIN".format(train_times[0]))
+            graphics.DrawText(offscreen_canvas, font_large, 0, 30, textColor, "{} MIN".format(train_times[1]))
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             current_hour = datetime.now().hour
             if (current_hour > 6 and current_hour < 23):
                 time.sleep(90)
             else:
-                time.sleep(60*30)
+                time.sleep(60*20)
 
 if __name__ == "__main__":
     run_text = RunText()
