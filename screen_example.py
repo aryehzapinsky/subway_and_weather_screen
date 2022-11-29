@@ -10,11 +10,11 @@ class RunText(SampleBase):
     def __init__(self, *args, **kwargs):
         super(RunText, self).__init__(*args, **kwargs)
 
-"""
-10x20.bdf  5x8.bdf   6x13.bdf   6x9.bdf    7x13O.bdf  8x13.bdf   9x15.bdf   9x18B.bdf  README.md    texgyre-27.bdf
-4x6.bdf    6x10.bdf  6x13B.bdf  7x13.bdf   7x14.bdf   8x13B.bdf  9x15B.bdf  AUTHORS    clR6x12.bdf  tom-thumb.bdf
-5x7.bdf    6x12.bdf  6x13O.bdf  7x13B.bdf  7x14B.bdf  8x13O.bdf  9x18.bdf   README     helvR12.bdf
-"""
+    """
+    10x20.bdf  5x8.bdf   6x13.bdf   6x9.bdf    7x13O.bdf  8x13.bdf   9x15.bdf   9x18B.bdf  README.md    texgyre-27.bdf
+    4x6.bdf    6x10.bdf  6x13B.bdf  7x13.bdf   7x14.bdf   8x13B.bdf  9x15B.bdf  AUTHORS    clR6x12.bdf  tom-thumb.bdf
+    5x7.bdf    6x12.bdf  6x13O.bdf  7x13B.bdf  7x14B.bdf  8x13O.bdf  9x18.bdf   README     helvR12.bdf
+    """
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font_large = graphics.Font()
