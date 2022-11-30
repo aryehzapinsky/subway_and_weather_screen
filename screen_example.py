@@ -33,10 +33,12 @@ class RunText(SampleBase):
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             current_hour = datetime.now().hour
-            if (current_hour > 6 and current_hour < 23):
+            if (current_hour >= 6 and current_hour < 10):
+                time.sleep(30)
+            elif (current_hour >= 10 and current_hour < 20):
                 time.sleep(90)
             else:
-                time.sleep(60*20)
+                time.sleep(120)
 
 if __name__ == "__main__":
     run_text = RunText()
