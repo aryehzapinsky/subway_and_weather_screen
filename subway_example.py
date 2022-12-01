@@ -43,7 +43,7 @@ def get_upcoming_trains():
 
 def filter_trains_next_two(upcoming_trains):
   next_two = []
-  for train_time in upcoming_trains.sort():
+  for train_time in sorted(upcoming_trains):
     if (train_time == 0):
       continue
     next_two.append(train_time)
