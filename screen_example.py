@@ -27,9 +27,8 @@ class RunText(SampleBase):
             train_times = filter_trains_next_two(get_upcoming_trains())
             
             offscreen_canvas.Clear()
-            graphics.DrawText(offscreen_canvas, font_small, 0, 10, textColor, "TRAINS:")
-            graphics.DrawText(offscreen_canvas, font_large, 0, 20, textColor, "{} MIN".format(train_times[0]))
-            graphics.DrawText(offscreen_canvas, font_large, 0, 30, textColor, "{} MIN".format(train_times[1]))
+            graphics.DrawText(offscreen_canvas, font_large, 5, 20, textColor, "{} MIN".format(train_times[0]))
+            graphics.DrawText(offscreen_canvas, font_large, 5, 30, textColor, "{} MIN".format(train_times[1]))
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             current_hour = datetime.now().hour
