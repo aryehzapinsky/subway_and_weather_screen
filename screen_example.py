@@ -28,8 +28,10 @@ class RunText(SampleBase):
             train_times = filter_trains_next_two(get_upcoming_trains())
             
             offscreen_canvas.Clear()
-            graphics.DrawText(offscreen_canvas, font_large, 5, 10, textColor, "{} MIN".format(train_times[0]))
-            graphics.DrawText(offscreen_canvas, font_large, 5, 20, textColor, "{} MIN".format(train_times[1]))
+            if (train_times[0] is not None):
+                graphics.DrawText(offscreen_canvas, font_large, 5, 10, textColor, "{} MIN".format(train_times[0]))
+            if (train_times[1] is not None):
+                graphics.DrawText(offscreen_canvas, font_large, 5, 20, textColor, "{} MIN".format(train_times[1]))
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             current_hour = datetime.now().hour

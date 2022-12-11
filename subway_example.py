@@ -42,12 +42,15 @@ def get_upcoming_trains():
   return upcoming_trains
 
 def filter_trains_next_two(upcoming_trains):
-  next_two = []
+  next_two = [None, None]
+  index = 0
   for train_time in sorted(upcoming_trains):
     if (train_time == 0):
       continue
-    next_two.append(train_time)
-    if (len(next_two) == 2):
+    next_two[index] = train_time
+    index+=1
+    if (index == 2):
       return next_two
+  return next_two
 
 print(filter_trains_next_two(get_upcoming_trains()))
