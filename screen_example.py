@@ -4,6 +4,7 @@ from samplebase import SampleBase
 from rgbmatrix import graphics
 import time
 from subway_example import filter_trains_next_two, get_upcoming_trains
+from weather_example import get_weather
 from datetime import datetime
 
 class RunText(SampleBase):
@@ -29,9 +30,14 @@ class RunText(SampleBase):
             
             offscreen_canvas.Clear()
             if (train_times[0] is not None):
-                graphics.DrawText(offscreen_canvas, font_large, 5, 10, textColor, "{} MIN".format(train_times[0]))
+                graphics.DrawText(offscreen_canvas, font_large, 2, 10, textColor, "{} MIN".format(train_times[0]))
             if (train_times[1] is not None):
-                graphics.DrawText(offscreen_canvas, font_large, 5, 20, textColor, "{} MIN".format(train_times[1]))
+                graphics.DrawText(offscreen_canvas, font_large, 2, 20, textColor, "{} MIN".format(train_times[1]))
+
+            # weather - now
+            weather = get_weather()
+            graphics.DrawText(offscreen_canvas, font_large, 25, 40, textColor, "now: {} F".format(weather.get('current_temperature')))
+            
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             current_hour = datetime.now().hour
