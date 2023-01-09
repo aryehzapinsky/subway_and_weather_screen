@@ -36,8 +36,8 @@ class RunText(SampleBase):
 
             # weather - now
             weather = get_weather()
-            graphics.DrawText(offscreen_canvas, font_large, 25, 40, textColor, "now: {} F".format(weather.get('current_temperature')))
-            
+            graphics.DrawText(offscreen_canvas, font_large, 35, 40, textColor, "{} F".format(weather.get('current_temperature')))
+
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             current_hour = datetime.now().hour
