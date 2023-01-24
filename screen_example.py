@@ -36,7 +36,9 @@ class RunText(SampleBase):
 
             # weather - now
             weather = get_weather()
-            graphics.DrawText(offscreen_canvas, font_large, 35, 40, textColor, "{} F".format(weather.get('current_temperature')))
+            current_temperature = weather.get('current_temperature')
+            if current_temperature:
+                graphics.DrawText(offscreen_canvas, font_large, 35, 40, textColor, "{} F".format(current_temperature))
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
