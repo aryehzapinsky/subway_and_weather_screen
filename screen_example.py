@@ -7,7 +7,7 @@ from subway_example import filter_trains_next_two, get_upcoming_trains
 from weather_example import get_weather
 from datetime import datetime
 
-PATH_NAME = "persisted_data/tmp_weather.json"
+PATH_NAME = "tmp_weather.json"
 
 class RunText(SampleBase):
     def __init__(self, *args, **kwargs):
