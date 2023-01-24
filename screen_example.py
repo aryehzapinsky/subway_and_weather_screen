@@ -7,6 +7,8 @@ from subway_example import filter_trains_next_two, get_upcoming_trains
 from weather_example import get_weather
 from datetime import datetime
 
+PATH_NAME = "persisted_data/tmp_weather.json"
+
 class RunText(SampleBase):
     def __init__(self, *args, **kwargs):
         super(RunText, self).__init__(*args, **kwargs)
@@ -35,7 +37,7 @@ class RunText(SampleBase):
                 graphics.DrawText(offscreen_canvas, font_large, 2, 20, textColor, "{} MIN".format(train_times[1]))
 
             # weather - now
-            weather = get_weather()
+            weather = get_weather(PATH_NAME)
             current_temperature = weather.get('current_temperature')
             if current_temperature:
                 graphics.DrawText(offscreen_canvas, font_large, 35, 40, textColor, "{} F".format(current_temperature))
