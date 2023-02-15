@@ -13,6 +13,8 @@ HOURLY_TEMPERATURES = "hourly_temperatures"
 CURRENT_TIME = "current_time"
 CURRENT_WEATHER = "weather"
 CURRENT_TEMPERATURE = "current_temperature"
+HIGH_TEMPERATURE = "high"
+LOW_TEMPERATURE = "low"
 
 class DatetimeEncoder(json.JSONEncoder):
     def default(self, o):
@@ -53,11 +55,30 @@ def fetch_weather():
     request = urllib.request.Request(weather_endpoint)
     response = urllib.request.urlopen(request)
     weather = json.load(response)
-    current_temp = round(weather["current"]["temp"])
-    temps_over_hours = [(round(t["temp"]), datetime.fromtimestamp(t["dt"])) for t in weather["hourly"]]
-    # print([t for t in weather["hourly"]])
+
+    return weather
+
+def process_raw_weather(weather_json, current_time) -> dict:
+    # with open("sample_weather.json", "r+", encoding="utf-8") as f:
+    #     weather_json = json.load(f)
+
+    current_temp = round(weather_json["current"]["temp"])
+    temps_over_hours = [(round(t["temp"]), datetime.fromtimestamp(t["dt"])) for t in weather_json["hourly"]]
+
+    high = None
+    low = None
+    for (temp, timestamp) in temps_over_hours:
+        if (timestamp > current_time + timedelta(hours=12)):
+            break
+        if (not high or high < temp):
+            high = temp
+        if (not low or low > temp):
+            low = temp
+
     return {CURRENT_TEMPERATURE: current_temp,
-            HOURLY_TEMPERATURES: temps_over_hours}
+            HOURLY_TEMPERATURES: temps_over_hours,
+            HIGH_TEMPERATURE: high,
+            LOW_TEMPERATURE: low}
 
 
 PATH_NAME = "tmp_weather.json"
@@ -72,10 +93,11 @@ def dump_weather_into_file(path_name, weather, current_time):
         json.dump(mapping, file, cls=DatetimeEncoder)
 
 def fetch_and_dump(path_name, current_time):
-    weather = fetch_weather()
-    dump_weather_into_file(path_name, weather, current_time)
+    raw_weather_json = fetch_weather()
+    processed_weather = process_raw_weather(raw_weather_json, current_time)
+    dump_weather_into_file(path_name, processed_weather, current_time)
 
-    return weather
+    return processed_weather
 
 def get_weather_and_maybe_refetch(path, current_time):
     with open(path, "r+", encoding="utf-8") as file:

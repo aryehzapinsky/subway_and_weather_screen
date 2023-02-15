@@ -40,7 +40,13 @@ class RunText(SampleBase):
             weather = get_weather(PATH_NAME)
             current_temperature = weather.get('current_temperature')
             if current_temperature:
-                graphics.DrawText(offscreen_canvas, font_large, 35, 40, textColor, "{} F".format(current_temperature))
+                graphics.DrawText(offscreen_canvas, font_large, 2, 40, textColor, "{} F".format(current_temperature))
+            high = weather.get('high')
+            low = weather.get('low')
+            if (high and low):
+                l = graphics.DrawText(offscreen_canvas, font_large, 2, 50, textColor, "L: {} F".format(low))
+                graphics.DrawText(offscreen_canvas, font_large, l + 10, 50, textColor, "H: {} F".format(high))
+                
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
