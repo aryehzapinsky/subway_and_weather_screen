@@ -32,21 +32,19 @@ class RunText(SampleBase):
             
             offscreen_canvas.Clear()
             if (train_times[0] is not None):
-                graphics.DrawText(offscreen_canvas, font_large, 2, 10, textColor, "{} MIN".format(train_times[0]))
+                graphics.DrawText(offscreen_canvas, font_large, 1, 10, textColor, "{} MIN".format(train_times[0]))
             if (train_times[1] is not None):
-                graphics.DrawText(offscreen_canvas, font_large, 2, 20, textColor, "{} MIN".format(train_times[1]))
+                graphics.DrawText(offscreen_canvas, font_large, 1, 20, textColor, "{} MIN".format(train_times[1]))
 
             # weather - now
             weather = get_weather(PATH_NAME)
             current_temperature = weather.get('current_temperature')
             if current_temperature:
-                graphics.DrawText(offscreen_canvas, font_large, 2, 40, textColor, "{} F".format(current_temperature))
+                graphics.DrawText(offscreen_canvas, font_large, 1, 40, textColor, "{} F".format(current_temperature))
             high = weather.get('high')
             low = weather.get('low')
             if (high and low):
-                l = graphics.DrawText(offscreen_canvas, font_large, 2, 50, textColor, "L: {} F".format(low))
-                graphics.DrawText(offscreen_canvas, font_large, l + 10, 50, textColor, "H: {} F".format(high))
-                
+                l = graphics.DrawText(offscreen_canvas, font_large, 1, 50, textColor, "L: {} H: {}".format(low, high))
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
