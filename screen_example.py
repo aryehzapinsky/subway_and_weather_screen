@@ -44,7 +44,7 @@ class RunText(SampleBase):
             high = weather.get('high')
             low = weather.get('low')
             if (high and low):
-                l = graphics.DrawText(offscreen_canvas, font_large, 1, 50, textColor, "L: {} H: {}".format(low, high))
+                l = graphics.DrawText(offscreen_canvas, font_large, 1, 50, textColor, "L:{} H:{}".format(low, high))
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
