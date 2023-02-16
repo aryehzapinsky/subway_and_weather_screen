@@ -15,6 +15,8 @@ CURRENT_WEATHER = "weather"
 CURRENT_TEMPERATURE = "current_temperature"
 HIGH_TEMPERATURE = "high"
 LOW_TEMPERATURE = "low"
+RAIN = "rain"
+RAIN_TIME = "rain_time"
 
 class DatetimeEncoder(json.JSONEncoder):
     def default(self, o):
@@ -59,26 +61,32 @@ def fetch_weather():
     return weather
 
 def process_raw_weather(weather_json, current_time) -> dict:
-    # with open("sample_weather.json", "r+", encoding="utf-8") as f:
-    #     weather_json = json.load(f)
-
     current_temp = round(weather_json["current"]["temp"])
-    temps_over_hours = [(round(t["temp"]), datetime.fromtimestamp(t["dt"])) for t in weather_json["hourly"]]
+    temps_over_hours = []
+    for sample in weather_json["hourly"]:
+        temps_over_hours.append((datetime.fromtimestamp(sample["dt"]), round(sample["temp"]), sample["weather"][0]["main"]))
 
     high = None
     low = None
-    for (temp, timestamp) in temps_over_hours:
+    rain = False
+    rain_time = None
+    for (timestamp, temp, weather) in temps_over_hours:
         if (timestamp > current_time + timedelta(hours=12)):
             break
         if (not high or high < temp):
             high = temp
         if (not low or low > temp):
             low = temp
+        if weather == "Rain":
+            rain = True
+            rain_time = timestamp
 
     return {CURRENT_TEMPERATURE: current_temp,
             HOURLY_TEMPERATURES: temps_over_hours,
             HIGH_TEMPERATURE: high,
-            LOW_TEMPERATURE: low}
+            LOW_TEMPERATURE: low,
+            RAIN: rain,
+            RAIN_TIME: rain_time}
 
 
 PATH_NAME = "tmp_weather.json"
@@ -118,5 +126,9 @@ def get_weather(path):
 
 
 if __name__ == "__main__":
-    x = get_weather(PATH_NAME)
-    print(x.get('current_temperature'))
+    # x = get_weather(PATH_NAME)
+    # print(x.get('current_temperature'))
+    with open("sample_weather.json", "r+", encoding="utf-8") as f:
+        weather_json = json.load(f)
+        processed = process_raw_weather(weather_json, datetime(year=2023, month=2, day=15, hour=10, minute=8, second=18))
+        print(processed.get("rain_time"))
