@@ -40,7 +40,7 @@ class DatetimeDecoder(json.JSONDecoder):
     def object_pairs_hook(self, dct):
         dictionary = dict()
         for item in dict(dct).items():
-            if item[0] == CURRENT_TIME:
+            if item[0] == CURRENT_TIME or item[0] == RAIN_TIME:
                 dictionary.setdefault(item[0], datetime.fromisoformat(item[1]))
             elif item[0] == HOURLY_TEMPERATURES:
                 hourly_temperatures = []
