@@ -49,7 +49,8 @@ class RunText(SampleBase):
 
             rain_time = weather.get('rain_time')
             if rain_time:
-                graphics.DrawText(offscreen_canvas, font_large, 1, 60, textColor, "rain:{}".format(rain_time.hour))
+                # Show rain in 12 hour format with AM or PM
+                graphics.DrawText(offscreen_canvas, font_large, 1, 60, textColor, "rain:{}".format(rain_time.strftime("%-I %p")))
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 

@@ -135,4 +135,5 @@ if __name__ == "__main__":
     with open("sample_weather.json", "r+", encoding="utf-8") as f:
         weather_json = json.load(f)
         processed = process_raw_weather(weather_json, datetime(year=2023, month=2, day=15, hour=10, minute=8, second=18))
-        print(processed.get("rain_time"))
+        t = processed.get("rain_time")
+        print(t.strftime("%-I %p"))
