@@ -46,7 +46,7 @@ class DatetimeDecoder(json.JSONDecoder):
                 hourly_temperatures = []
                 for weather_sample in item[1]:
                     # This should be a named tuple so I can re-use below
-                    hourly_temperatures.append(tuple(datetime.fromisoformat(weather_sample[0]), weather_sample[1], weather_sample[2]))
+                    hourly_temperatures.append(tuple((datetime.fromisoformat(weather_sample[0]), weather_sample[1], weather_sample[2])))
                 dictionary.setdefault(item[0], hourly_temperatures)
             else:
                 dictionary.setdefault(item[0], item[1])
