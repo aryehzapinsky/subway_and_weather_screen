@@ -81,7 +81,7 @@ def process_raw_weather(weather_json, current_time) -> dict:
             high = temp
         if (not low or low > temp):
             low = temp
-        if weather == "Rain":
+        if not rain and weather == "Rain":
             rain = True
             rain_time = timestamp
 
