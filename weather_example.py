@@ -40,7 +40,7 @@ class DatetimeDecoder(json.JSONDecoder):
     def object_pairs_hook(self, dct):
         dictionary = dict()
         for item in dict(dct).items():
-            if item[0] == CURRENT_TIME or item[0] == RAIN_TIME:
+            if item[0] == CURRENT_TIME:
                 dictionary.setdefault(item[0], datetime.fromisoformat(item[1]))
             elif item[0] == HOURLY_TEMPERATURES:
                 hourly_temperatures = []
@@ -48,6 +48,10 @@ class DatetimeDecoder(json.JSONDecoder):
                     # This should be a named tuple so I can re-use below
                     hourly_temperatures.append(tuple((datetime.fromisoformat(weather_sample[0]), weather_sample[1], weather_sample[2])))
                 dictionary.setdefault(item[0], hourly_temperatures)
+            elif item[0] == RAIN_TIME:
+                # If the previous time was set to null, use a bogus datetime, for this datetime(2023, 1, 1)
+                dictionary.setdefault(item[0], datetime.fromisoformat(item[1]) 
+                                      if item[1] else datetime(2023, 1, 1))
             else:
                 dictionary.setdefault(item[0], item[1])
         return dictionary
