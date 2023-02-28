@@ -16,8 +16,10 @@ CURRENT_TEMPERATURE = "current_temperature"
 HIGH_TEMPERATURE = "high"
 LOW_TEMPERATURE = "low"
 RAIN = "rain"
-RAIN_TIME = "rain_time"
+SNOW = "snow"
+PERCIPITATION_TIME = "percipitation_time"
 
+# I don't think this datetime encoder is working of the datetime object inside of the weather dict.
 class DatetimeEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, datetime):
@@ -48,10 +50,10 @@ class DatetimeDecoder(json.JSONDecoder):
                     # This should be a named tuple so I can re-use below
                     hourly_temperatures.append(tuple((datetime.fromisoformat(weather_sample[0]), weather_sample[1], weather_sample[2])))
                 dictionary.setdefault(item[0], hourly_temperatures)
-            elif item[0] == RAIN_TIME:
-                # If the previous time was set to null, use a bogus datetime, for this datetime(2023, 1, 1)
+            elif item[0] == PERCIPITATION_TIME:
+                # If the previous time was set to null, use a bogus datetime, for this None
                 dictionary.setdefault(item[0], datetime.fromisoformat(item[1]) 
-                                      if item[1] else datetime(2023, 1, 1))
+                                      if item[1] else None)
             else:
                 dictionary.setdefault(item[0], item[1])
         return dictionary
@@ -77,24 +79,29 @@ def process_raw_weather(weather_json, current_time) -> dict:
     high = None
     low = None
     rain = False
-    rain_time = None
-    for (timestamp, temp, weather) in temps_over_hours:
+    snow = False
+    percipitation_time = None
+    for (timestamp, temp, weather) in temps_over_hours[1:]:
         if (timestamp > current_time + timedelta(hours=12)):
             break
         if (not high or high < temp):
             high = temp
         if (not low or low > temp):
             low = temp
-        if not rain and weather == "Rain":
+        if percipitation_time is None and weather == "Rain":
             rain = True
-            rain_time = timestamp
+            percipitation_time = timestamp
+        if percipitation_time is None and weather == "Snow":
+            rain = True
+            percipitation_time = timestamp
 
     return {CURRENT_TEMPERATURE: current_temp,
             HOURLY_TEMPERATURES: temps_over_hours,
             HIGH_TEMPERATURE: high,
             LOW_TEMPERATURE: low,
             RAIN: rain,
-            RAIN_TIME: rain_time}
+            SNOW: snow,
+            PERCIPITATION_TIME: percipitation_time}
 
 
 PATH_NAME = "tmp_weather.json"
@@ -136,8 +143,10 @@ def get_weather(path):
 if __name__ == "__main__":
     # x = get_weather(PATH_NAME)
     # print(x.get('current_temperature'))
-    with open("sample_weather.json", "r+", encoding="utf-8") as f:
-        weather_json = json.load(f)
-        processed = process_raw_weather(weather_json, datetime(year=2023, month=2, day=15, hour=10, minute=8, second=18))
-        t = processed.get("rain_time")
-        print(t.strftime("%-I %p"))
+    x = get_weather("tmp_weather.json")
+    # print(x.get('current_temperature'))
+    # with open("sample_weather.json", "r+", encoding="utf-8") as f:
+    #     weather_json = json.load(f)
+    #     processed = process_raw_weather(weather_json, datetime(year=2023, month=2, day=15, hour=10, minute=8, second=18))
+    #     t = processed.get("rain_time")
+    #     print(t.strftime("%-I %p"))
