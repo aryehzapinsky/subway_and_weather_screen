@@ -57,6 +57,7 @@ class RunText(SampleBase):
 
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
+            # Update more frequently when commuting or awake. 
             current_hour = datetime.now().hour
             if (current_hour >= 6 and current_hour < 10):
                 time.sleep(30)

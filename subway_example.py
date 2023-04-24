@@ -10,7 +10,7 @@ def minutes_until_next_train(arrival_time, now):
 
 def get_upcoming_trains():
   subway_endpoint = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace"
-  api_key = "EQLPiOQ7xF5ZvuShu0hgT3sBpBwimCeh8rqN1IiF"
+  api_key = ""
   request = urllib.request.Request(subway_endpoint)
   request.add_header('x-api-key', api_key)
 

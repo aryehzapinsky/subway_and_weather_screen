@@ -61,7 +61,8 @@ class DatetimeDecoder(json.JSONDecoder):
 def fetch_weather():
     weather_endpoint = "https://api.openweathermap.org/data/3.0/onecall"
     weather_endpoint += "?lat=40.851800&lon=-73.937230"
-    weather_endpoint += "&appid=6a8aa4c20bb42649555d37ebf2c335a9"
+    # need a weather api id
+    weather_endpoint += "&appid="
     weather_endpoint += "&units=imperial"
     weather_endpoint += "&exclude=minutely,daily"
     request = urllib.request.Request(weather_endpoint)
@@ -88,10 +89,10 @@ def process_raw_weather(weather_json, current_time) -> dict:
             high = temp
         if (not low or low > temp):
             low = temp
-        if percipitation_time is None and weather == "Rain":
+        if percipitation_time != None and weather == "Rain":
             rain = True
             percipitation_time = timestamp
-        if percipitation_time is None and weather == "Snow":
+        if percipitation_time != None and weather == "Snow":
             rain = True
             percipitation_time = timestamp
 
