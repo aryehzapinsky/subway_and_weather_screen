@@ -11,6 +11,8 @@ Crontab on RaspberryPi looks like this:
 @reboot sleep 120 &&  /home/aryeh/dev/trains-clone/env_pi/bin/python /home/aryeh/dev/trains-clone/screen_example.py --led-rows=64 --led-cols=64 --led-slowdown-gpio=5 --led-no-hardware-pulse 1 --led-brightness=40 &
 ```
 
+Previous commits have my application keys for the MTA and weather APIs that I'm still using. Please don't use them. If you end up cloning this repo, please get other keys. If it turns out someone else is using my keys, I'll have to generate a new key for myself anyways, at which point you will need a new key. So please, get your own API keys.
+
 I have not written test cases for this code.
 Here is an image of the setup running.
 ![image of screen showing subway times and weather](screens_running.jpeg)
