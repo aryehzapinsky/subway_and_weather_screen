@@ -1,3 +1,5 @@
+A hobby project to display the duration until the next 2 southbound A trains arrive at the 181st station and the weather.
+
 When leaving for the train in the morning I want to know how many minutes it will take for the next A train to arrive. These scripts query from the NYC MTA's APIs how many minutes the next two trains will come.
 
 Additionally, the screen displays the current temperature outside, the high and low temperatures over the next 12 hours, and if is going to rain or snow. This information is cached to not query the weather APIs too frequently.
@@ -8,3 +10,7 @@ Crontab on RaspberryPi looks like this:
 ```
 @reboot sleep 120 &&  /home/aryeh/dev/trains-clone/env_pi/bin/python /home/aryeh/dev/trains-clone/screen_example.py --led-rows=64 --led-cols=64 --led-slowdown-gpio=5 --led-no-hardware-pulse 1 --led-brightness=40 &
 ```
+
+I have not written test cases for this code.
+Here is an image of the setup running.
+![image of screen showing subway times and weather](screens_running.jpeg)
