@@ -61,10 +61,9 @@ class DatetimeDecoder(json.JSONDecoder):
 def fetch_weather():
     weather_endpoint = "https://api.openweathermap.org/data/3.0/onecall"
     weather_endpoint += "?lat=40.851800&lon=-73.937230"
-    # need a weather api id
-    weather_endpoint += "&appid="
+    weather_endpoint += "&appid=6a8aa4c20bb42649555d37ebf2c335a9"
     weather_endpoint += "&units=imperial"
-    weather_endpoint += "&exclude=minutely,daily"
+    weather_endpoint += "&exclude=minutely"
     request = urllib.request.Request(weather_endpoint)
     response = urllib.request.urlopen(request)
     weather = json.load(response)
@@ -144,10 +143,27 @@ def get_weather(path):
 if __name__ == "__main__":
     # x = get_weather(PATH_NAME)
     # print(x.get('current_temperature'))
-    x = get_weather("tmp_weather.json")
+    # x = get_weather("tmp_weather.json")
     # print(x.get('current_temperature'))
     # with open("sample_weather.json", "r+", encoding="utf-8") as f:
     #     weather_json = json.load(f)
     #     processed = process_raw_weather(weather_json, datetime(year=2023, month=2, day=15, hour=10, minute=8, second=18))
     #     t = processed.get("rain_time")
     #     print(t.strftime("%-I %p"))
+
+    # weather - now
+    weather = get_weather(PATH_NAME)
+    current_temperature = weather.get('current_temperature')
+    print(current_temperature)
+
+    high = weather.get('high')
+    low = weather.get('low')
+    print("Low: {}, High: {}".format(low, high))
+
+    percipitation_time = weather.get('percipitation_time')
+    if percipitation_time:
+        rain_or_snow = "rain" if weather.get('rain') else "snow"
+        # Show rain in 12 hour format with AM or PM
+        print("Rain or Snow {}:{}".format(
+            rain_or_snow,
+            percipitation_time.strftime("%-I %p")))
