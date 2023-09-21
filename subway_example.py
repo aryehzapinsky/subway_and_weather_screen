@@ -2,6 +2,7 @@
 
 from google.transit import gtfs_realtime_pb2
 import urllib.request
+import urllib.error
 from datetime import datetime
 from datetime import timedelta
 
@@ -14,10 +15,15 @@ def get_upcoming_trains():
   request = urllib.request.Request(subway_endpoint)
   request.add_header('x-api-key', api_key)
 
-  response = urllib.request.urlopen(request)
+  upcoming_trains = []
+
+  try:
+    response = urllib.request.urlopen(request)
+  except urllib.error.URLError as url_error:
+    print(url_error)
+    return upcoming_trains
 
   now = datetime.now()
-  upcoming_trains = []
 
   feed = gtfs_realtime_pb2.FeedMessage()
   feed.ParseFromString(response.read())
