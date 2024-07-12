@@ -18,6 +18,7 @@ LOW_TEMPERATURE = "low"
 RAIN = "rain"
 SNOW = "snow"
 PERCIPITATION_TIME = "percipitation_time"
+MOON_PHASE = "moon_phase"
 
 # I don't think this datetime encoder is working of the datetime object inside of the weather dict.
 class DatetimeEncoder(json.JSONEncoder):
@@ -75,6 +76,7 @@ def process_raw_weather(weather_json, current_time) -> dict:
     temps_over_hours = []
     for sample in weather_json["hourly"]:
         temps_over_hours.append((datetime.fromtimestamp(sample["dt"]), round(sample["temp"]), sample["weather"][0]["main"]))
+    moon_phase = weather_json["daily"][0]["moon_phase"]
 
     high = None
     low = None
@@ -88,12 +90,15 @@ def process_raw_weather(weather_json, current_time) -> dict:
             high = temp
         if (not low or low > temp):
             low = temp
-        if percipitation_time != None and weather == "Rain":
+        if percipitation_time == None and weather == "Rain":
             rain = True
             percipitation_time = timestamp
-        if percipitation_time != None and weather == "Snow":
-            rain = True
+        if percipitation_time == None and weather == "Snow":
+            snow = True
             percipitation_time = timestamp
+
+        # print(percipitation_time)
+        # print(weather)
 
     return {CURRENT_TEMPERATURE: current_temp,
             HOURLY_TEMPERATURES: temps_over_hours,
@@ -101,7 +106,8 @@ def process_raw_weather(weather_json, current_time) -> dict:
             LOW_TEMPERATURE: low,
             RAIN: rain,
             SNOW: snow,
-            PERCIPITATION_TIME: percipitation_time}
+            PERCIPITATION_TIME: percipitation_time,
+            MOON_PHASE: moon_phase}
 
 
 PATH_NAME = "tmp_weather.json"
@@ -167,3 +173,10 @@ if __name__ == "__main__":
         print("Rain or Snow {}:{}".format(
             rain_or_snow,
             percipitation_time.strftime("%-I %p")))
+        
+    moon_phase = weather.get('moon_phase')
+    print("Moon Phase: {}".format(moon_phase))
+
+    # fetched = fetch_weather()
+    # processed = process_raw_weather(fetched, datetime.now())
+    # print(processed)
