@@ -32,7 +32,7 @@ def get_upcoming_trains():
       if entity.trip_update.HasField("trip"):
           if (entity.trip_update.trip.HasField("route_id")) and (entity.trip_update.trip.HasField("trip_id")):
             trip = entity.trip_update.trip
-            if (trip.route_id == "A") and (trip.trip_id[-1] == "S"):
+            if (trip.route_id == "A") and (trip.trip_id[-4] == "S"):
               # print(trip)
               for stop_time_update in entity.trip_update.stop_time_update:
                 # 181st going south - A06S,,181 St,,40.851695,-73.937969,,,0,A06
