@@ -66,7 +66,30 @@ class RunText(SampleBase):
             else:
                 time.sleep(120)
 
-if __name__ == "__main__":
+# image = Image.open(image_file)
+
+# # Configuration for the matrix
+# options = RGBMatrixOptions()
+# options.rows = 32
+# options.chain_length = 1
+# options.parallel = 1
+# options.hardware_mapping = 'regular'  # If you have an Adafruit HAT: 'adafruit-hat'
+
+# matrix = RGBMatrix(options = options)
+
+# # Make image fit our screen.
+# image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+
+# matrix.SetImage(image.convert('RGB'))
+
+def main():
     run_text = RunText()
     if (not run_text.process()):
         run_text.print_help()
+
+if __name__ == "__main__":
+    while True:
+        try:
+            main()
+        except:
+            continue
